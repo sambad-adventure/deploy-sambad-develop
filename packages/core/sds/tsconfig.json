@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "dist",
     "paths": {
-      "@sds/*": ["./src/*"]
+      "@/*": ["./src/*"]
     }
   },
   "include": ["src"],

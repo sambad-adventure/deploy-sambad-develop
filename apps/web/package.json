@@ -3,8 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "dev:https": "next dev --experimental-https --experimental-https-key ./certificates/private.key.pem --experimental-https-cert ./certificates/domain.cert.pem",
+    "dev": "next dev --turbo",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -13,10 +12,7 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@sambad/web-domains": "workspace:*",
-    "next": "14.2.4",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "@sambad/web-domains": "workspace:*"
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^1.6.1",

@@ -14,7 +14,7 @@
       "cache": false,
       "persistent": true
     },
-    "web#dev:https": {
+    "web#dev": {
       "cache": false,
       "persistent": true
     },
