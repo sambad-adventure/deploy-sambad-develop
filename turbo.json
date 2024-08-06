@@ -9,12 +9,12 @@
     "lint": {
       "dependsOn": ["^lint"]
     },
-
+    "type-check": {},
     "dev": {
       "cache": false,
       "persistent": true
     },
-    "web#dev": {
+    "web#dev:https": {
       "cache": false,
       "persistent": true
     },

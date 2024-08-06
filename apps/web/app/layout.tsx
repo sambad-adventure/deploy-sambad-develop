@@ -1,10 +1,16 @@
-import { Inter } from 'next/font/google';
+import { Providers, RootLayout as ViewportLayout } from '@sambad/web-domains/commmon';
+import dayjs from 'dayjs';
+import localFont from 'next/font/local';
 
 import type { Metadata } from 'next';
 
-import './globals.css';
+dayjs.locale('ko');
 
-const inter = Inter({ subsets: ['latin'] });
+const pretendard = localFont({
+  src: '../public/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+});
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,8 +23,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
+    <html lang="ko">
+      <body className={pretendard.className}>
+        <Providers>
+          <ViewportLayout>{children}</ViewportLayout>
+        </Providers>
+      </body>
     </html>
   );
 }
