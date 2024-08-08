@@ -1,7 +1,9 @@
 import { Providers } from '@/common';
-import { RootLayout as ViewportLayout } from '@sambad/web-domains/commmon';
+import { RootLayout as ViewportLayout } from '@sambad/web-domains/common';
 import dayjs from 'dayjs';
 import localFont from 'next/font/local';
+
+import { KakaoScript } from '../components/KakaoScript';
 
 import type { Metadata } from 'next';
 
@@ -25,6 +27,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
+      <KakaoScript />
       <body className={pretendard.className}>
         <Providers>
           <ViewportLayout>{children}</ViewportLayout>
