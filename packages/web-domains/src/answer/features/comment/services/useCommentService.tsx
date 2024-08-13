@@ -10,6 +10,7 @@ import { PROGRESSING_QUESTION_QUERY_KEY } from '@/answer/common/apis/queries/use
 import { answerAtoms } from '@/answer/common/atoms/answer.atom';
 import { GATHER_MEMBER_QUERY_KEY } from '@/home/common/apis/queries/useGetGatherMemberList';
 import { useGetMeetingInfo } from '@/home/common/apis/queries/useGetMeetingName';
+import { NOTIFICATION_QUERY_KEY } from '@/home/common/apis/queries/useGetNotification';
 import { TOP_PREVIOUS_QUESTION_QUERY_KEY } from '@/home/common/apis/queries/useGetTopPreviousQuestionList';
 
 export const useCommentService = () => {
@@ -42,6 +43,9 @@ export const useCommentService = () => {
       });
       queryClient.invalidateQueries({
         queryKey: [GATHER_MEMBER_QUERY_KEY],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [NOTIFICATION_QUERY_KEY],
       });
       push('/answer/closing');
     } catch (error) {

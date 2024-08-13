@@ -19,6 +19,10 @@ export const useNotificationService = () => {
       enabled: !!meetingInfo?.meetingIds,
       refetchInterval: 1000 * 30,
       select: (data) => {
+        if (!data?.contents.length) {
+          close();
+        }
+
         if (data?.contents[0]?.eventType === 'TARGET_MEMBER') {
           setSelectedTarget(true);
         }
