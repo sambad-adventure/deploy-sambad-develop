@@ -35,7 +35,13 @@ export const useCommentService = () => {
       }
 
       queryClient.invalidateQueries({
-        queryKey: [PROGRESSING_QUESTION_QUERY_KEY, TOP_PREVIOUS_QUESTION_QUERY_KEY, GATHER_MEMBER_QUERY_KEY],
+        queryKey: [PROGRESSING_QUESTION_QUERY_KEY],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [TOP_PREVIOUS_QUESTION_QUERY_KEY],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [GATHER_MEMBER_QUERY_KEY],
       });
       push('/answer/closing');
     } catch (error) {
