@@ -35,18 +35,23 @@ export const useCommentService = () => {
         await sendCommentMutate({ content: comment, meetingId, meetingQuestionId: questionId });
       }
 
-      queryClient.invalidateQueries({
+      const questionInvalidate = queryClient.invalidateQueries({
         queryKey: [PROGRESSING_QUESTION_QUERY_KEY],
       });
-      queryClient.invalidateQueries({
+      const topPreviousQuestionInvalidate = queryClient.invalidateQueries({
         queryKey: [TOP_PREVIOUS_QUESTION_QUERY_KEY],
       });
-      queryClient.invalidateQueries({
+
+      const gatherMemberInvalidate = queryClient.invalidateQueries({
         queryKey: [GATHER_MEMBER_QUERY_KEY],
       });
-      queryClient.invalidateQueries({
+
+      const notificationInvalidate = queryClient.invalidateQueries({
         queryKey: [NOTIFICATION_QUERY_KEY],
       });
+
+      Promise.all([questionInvalidate, topPreviousQuestionInvalidate, gatherMemberInvalidate, notificationInvalidate]);
+
       push('/answer/closing');
     } catch (error) {
       if (isAxiosError(error)) {

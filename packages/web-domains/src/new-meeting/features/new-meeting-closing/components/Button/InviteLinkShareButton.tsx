@@ -7,29 +7,33 @@ import { useToast } from '@/new-meeting/common/components/Toast/ToastProvider';
 
 import { CopyToast } from '../CopyToast';
 
-export const InviteLinkShareButton = ({ inviteCode }: { inviteCode: string | null }) => {
-  const { addToast } = useToast();
+interface InviteLinkShareButtonProps {
+  inviteCode?: string;
+}
 
-  const handleCopyUrl = () => {
-    addToast(() => CopyToast({ content: '링크가 복사되었습니다.' }));
-  };
+export const InviteLinkShareButton = (props: InviteLinkShareButtonProps) => {
+  const { inviteCode } = props;
 
   if (!inviteCode) {
     return null;
   }
 
-  const copyUrl = `/meeting/participate?inviteCode=${inviteCode}`;
+  const { addToast } = useToast();
+
+  const handleCopyUrl = () => {
+    addToast(() => CopyToast({ content: '링크를 복사했어요!' }));
+  };
+
+  const copyUrl = `${window.location.origin}/meeting/participate/closing?inviteCode=${inviteCode}`;
 
   return (
     <div css={{ margin: `${size['3xs']} ${size.xs}`, textAlign: 'center' }}>
       <CopyToClipboard text={copyUrl} onCopy={handleCopyUrl}>
-        <div>
-          <CircleCopy />
-          <Txt as="p" typography="title4" color={colors.grey700} css={{ marginTop: size['6xs'] }}>
-            링크 복사
-          </Txt>
-        </div>
+        <CircleCopy />
       </CopyToClipboard>
+      <Txt as="p" typography="title4" color={colors.grey700} css={{ marginTop: size['6xs'] }}>
+        링크 복사
+      </Txt>
     </div>
   );
 };
