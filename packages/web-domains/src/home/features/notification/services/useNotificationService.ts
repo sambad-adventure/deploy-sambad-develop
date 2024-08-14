@@ -1,22 +1,33 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useSetAtom } from 'jotai';
 import { useEffect } from 'react';
 
+import { PROGRESSING_QUESTION_QUERY_KEY } from '@/answer/common/apis/queries/useGetProgressingQuestion';
+import { ProgressingQuestionType } from '@/answer/common/apis/schema/useGetProgressingQuestionQuery.type';
 import { useDialogContext } from '@/common/contexts/DialogProvider';
 import { useGetMeetingInfo } from '@/home/common/apis/queries/useGetMeetingName';
 import { useGetNotification } from '@/home/common/apis/queries/useGetNotification';
 import { isSelectedTargetAtom } from '@/home/common/atoms/home.atom';
 
 export const useNotificationService = () => {
+  const queryClient = useQueryClient();
   const setSelectedTarget = useSetAtom(isSelectedTargetAtom);
   const { isOpen, close, open } = useDialogContext();
   const { data: meetingInfo } = useGetMeetingInfo({
     options: { gcTime: Infinity },
   });
 
+  const meetingId = meetingInfo?.meetings[0]?.meetingId;
+
+  const progressingQuestionData: ProgressingQuestionType | undefined = queryClient.getQueryData([
+    PROGRESSING_QUESTION_QUERY_KEY,
+    meetingId,
+  ]);
+
   const { data: notfication, isRefetching } = useGetNotification({
-    params: { meetingId: meetingInfo?.meetingIds[0]! },
+    params: { meetingId: meetingId! },
     options: {
-      enabled: !!meetingInfo?.meetingIds,
+      enabled: !!meetingId,
       refetchInterval: 1000 * 30,
       select: (data) => {
         if (!data?.contents.length) {
@@ -47,5 +58,6 @@ export const useNotificationService = () => {
     isOpen,
     handleClose,
     isRefetching,
+    isNotAnswerd: !progressingQuestionData?.isAnswered,
   };
 };
