@@ -2,13 +2,13 @@
 
 import { Txt } from '@sambad/sds/components';
 import { colors } from '@sambad/sds/theme';
-import { useQueryClient } from '@tanstack/react-query';
+
+import { useMyInfoQuery } from '@/relay-question/features/start-relay-question/hooks/queries/useMyInfoQuery';
+import { findCurrentMeetingId } from '@/relay-question/utils/findCurrentMeetingId';
 
 import { FIRST_STEP } from '../../../../constants';
 import { useIntersect } from '../../../../hooks/useIntersection';
-import { MY_INFO_QUERY_KEY } from '../../../start-relay-question/hooks/queries/useMyInfoQuery';
 import { useMyMeetingsQuery } from '../../../start-relay-question/hooks/queries/useMyMeetingsQuery';
-import { MyInfoResponse } from '../../../start-relay-question/types';
 import { Question } from '../../components/Question/Question';
 import { Questioner } from '../../components/Questioner/Questioner';
 import { useQueryStringContext } from '../../contexts/QueryStringContext';
@@ -27,7 +27,8 @@ export const ContentContainer = () => {
 
 const QuestionList = () => {
   const { myMeetings } = useMyMeetingsQuery();
-  const { questions, fetchStatus, fetchNextPage } = useRelayQuestionListQuery(myMeetings?.meetingIds[0]!);
+  const { questions, fetchStatus, fetchNextPage } = useRelayQuestionListQuery(findCurrentMeetingId(myMeetings));
+
   const { targetRef } = useIntersect({
     onIntersect: (entry) => {
       if (entry.isIntersecting && fetchStatus !== 'fetching') {
@@ -63,13 +64,12 @@ const QuestionList = () => {
 };
 
 const NextQuestionerList = () => {
-  const queryClient = useQueryClient();
   const { myMeetings } = useMyMeetingsQuery();
-  const { meetingMembers } = useMeetingMemberQuery(myMeetings?.meetingIds[0]!);
+  const { meetingMembers } = useMeetingMemberQuery(findCurrentMeetingId(myMeetings));
 
-  const myInfo = queryClient.getQueryData<MyInfoResponse>([MY_INFO_QUERY_KEY]);
+  const { myInfo } = useMyInfoQuery();
 
-  if (!meetingMembers) return <div>loading</div>;
+  if (!meetingMembers || !myInfo) return <div>loading</div>;
 
   return (
     <section>
@@ -95,7 +95,7 @@ const NextQuestionerList = () => {
             imageUrl={profileImageFileUrl}
             name={name}
             meetingMemberId={meetingMemberId}
-            meetingId={myMeetings?.meetingIds[0] || -1}
+            meetingId={findCurrentMeetingId(myMeetings)}
           />
         ))}
       </ul>

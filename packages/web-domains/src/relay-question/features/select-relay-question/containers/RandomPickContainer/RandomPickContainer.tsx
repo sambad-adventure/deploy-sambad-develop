@@ -3,8 +3,10 @@
 import { css } from '@emotion/react';
 import { Button } from '@sambad/sds/components';
 import { size } from '@sambad/sds/theme';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
+
+import { findCurrentMeetingId } from '@/relay-question/utils/findCurrentMeetingId';
 
 import { RelayRandomButtonDocumentIcon } from '../../../../assets/RelayRandomButtonIcon';
 import { Modal } from '../../../../common/Modal';
@@ -15,6 +17,7 @@ import { QuestionerDetail } from '../../components/QuestionerDetail/QuestionerDe
 import { ToolTip } from '../../components/ToolTip/ToolTip';
 import { useQueryStringContext } from '../../contexts/QueryStringContext';
 import { usePostRelayQuestionInfo } from '../../hooks/mutations/usePostRelayQuestionInfo';
+import { useMemberMeQuery } from '../../hooks/queries/useMemberMeQuery';
 import { useRandomNextQuestionerQuery } from '../../hooks/queries/useRandomNextQuestionerQuery';
 import { useRandomQuestionQuery } from '../../hooks/queries/useRandomQuestionQuery';
 import { useToolTipShow } from '../../hooks/useToolTipShow';
@@ -34,7 +37,10 @@ const QuestionRandomPick = () => {
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isShowToolTip } = useToolTipShow({ showTime: 5000 });
-  const { question, refetch: refetchQuestion } = useRandomQuestionQuery([]);
+
+  const { myMeetings } = useMyMeetingsQuery();
+  const { memberMe } = useMemberMeQuery(findCurrentMeetingId(myMeetings));
+  const { question, refetchQuestion } = useRandomQuestionQuery([memberMe?.meetingMemberId!]);
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -81,15 +87,19 @@ const QuestionRandomPick = () => {
 
 const QuestionerRandomPick = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isShowToolTip } = useToolTipShow({ showTime: 5000 });
+
   const { myMeetings } = useMyMeetingsQuery();
-  const { postRelayQuestionInfo } = usePostRelayQuestionInfo(myMeetings?.meetingIds[0]!);
+  const { memberMe } = useMemberMeQuery(findCurrentMeetingId(myMeetings));
   const { questioner, refetchQuestioner } = useRandomNextQuestionerQuery({
-    meetingId: myMeetings?.meetingIds[0]!,
-    excludeMemberIds: [0],
+    meetingId: findCurrentMeetingId(myMeetings),
+    excludeMemberIds: [memberMe?.meetingMemberId!],
   });
+
+  const { postRelayQuestionInfo } = usePostRelayQuestionInfo(findCurrentMeetingId(myMeetings));
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -104,7 +114,6 @@ const QuestionerRandomPick = () => {
     if (!questioner) return;
 
     const { meetingMemberId } = questioner;
-    const searchParams = new URLSearchParams(location.search);
     const questionId = Number(searchParams.get('question-id'));
 
     postRelayQuestionInfo(
