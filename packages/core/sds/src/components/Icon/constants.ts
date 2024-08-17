@@ -20,10 +20,10 @@ export const iconMap = {
   'angle-small-up': AngleSmallUpIcon,
   'angle-up': AngleUpIcon,
   'caret-down': CaretDownIcon,
-  'share-icon': ShareIcon,
-  'comments-icon': CommentsIcon,
-  'x-icon': XIcon,
   'sad-user': SadUserIcon,
   landscape: Landscape,
   crown: CrownIcon,
+  'share-icon': ShareIcon,
+  'comments-icon': CommentsIcon,
+  'x-icon': XIcon,
 };

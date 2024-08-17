@@ -9,9 +9,9 @@ import { QueryClientProvider } from './QueryClientProvider';
 export const Providers = ({ children }: PropsWithChildren) => {
   return (
     <QueryClientProvider>
-      <OverlayProvider>
-        <AtomProvider>{children}</AtomProvider>
-      </OverlayProvider>
+      <AtomProvider>
+        <OverlayProvider>{children}</OverlayProvider>
+      </AtomProvider>
     </QueryClientProvider>
   );
 };

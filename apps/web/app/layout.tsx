@@ -1,9 +1,9 @@
-import { Providers } from '@/common';
-import { RootLayout as ViewportLayout } from '@sambad/web-domains/common';
+import { Providers, RootLayout as ViewportLayout } from '@/common';
+import { GoogleAnalytics } from '@next/third-parties/google';
 import dayjs from 'dayjs';
 import localFont from 'next/font/local';
 
-import { KakaoScript } from '../components/KakaoScript';
+import { KakaoScript } from '../scripts/KakaoScript';
 
 import type { Metadata } from 'next';
 
@@ -33,6 +33,7 @@ export default function RootLayout({
           <ViewportLayout>{children}</ViewportLayout>
         </Providers>
       </body>
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_ID || ''} />
     </html>
   );
 }

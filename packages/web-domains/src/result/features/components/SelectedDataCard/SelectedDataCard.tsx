@@ -5,12 +5,12 @@ import { HTMLAttributes, ReactNode } from 'react';
 
 import { cardCss } from './styles';
 
-interface SelectedDataCardProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
+interface SelectedDataCard extends Omit<HTMLAttributes<HTMLDivElement>, 'title'> {
   title: ReactNode;
   children?: ReactNode;
 }
 
-export const SelectedDataCard = (props: SelectedDataCardProps) => {
+export const SelectedDataCard = (props: SelectedDataCard) => {
   const { title, children, ...restProps } = props;
 
   return (
