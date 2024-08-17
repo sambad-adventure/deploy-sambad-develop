@@ -8,6 +8,8 @@ export const useAnswerClosingService = () => {
   const { close, isOpen } = useDialogContext();
   const answerGlobalTime = useAtomValue(answerAtoms.answerGlobalTime);
   const basePath = getWebDomain();
+
+  console.log(basePath);
   return {
     answerGlobalTime: answerGlobalTime ?? 0,
     isOpen,
