@@ -1,7 +1,9 @@
 // const STAGE = process.env.NEXT_PUBLIC_STAGE;
 
 export const getWebDomain = () => {
-  // console.log(process.env.NEXT_PUBLIC_STAGE);
+  console.log(process.env.NEXT_PUBLIC_STAGE);
+
+  console.log('test');
 
   switch (process.env.NEXT_PUBLIC_STAGE) {
     case 'production':
