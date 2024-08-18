@@ -5,7 +5,8 @@ import { colors, size } from '@sambad/sds/theme';
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { KakaoShareModal, getWebDomain } from '@/common';
+import { KakaoShareModal } from '@/common';
+import { getWebDomain } from '@/common/getWebdomain';
 import { findCurrentMeetingId } from '@/relay-question/utils/findCurrentMeetingId';
 
 import { ShareGroupBackground } from '../../../../assets/ShareGroupBackground';

@@ -53,6 +53,5 @@ export const useNotificationService = () => {
     handleClose,
     isRefetching,
     isNotAnswerd: !progressingQuestionData?.isAnswered,
-    isNotRegistered: !progressingQuestionData?.isQuestionRegistered,
   };
 };
