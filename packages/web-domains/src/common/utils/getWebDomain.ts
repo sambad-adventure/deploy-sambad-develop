@@ -1,12 +1,13 @@
 const STAGE = process.env.NEXT_PUBLIC_STAGE;
 
 export const getWebDomain = () => {
-  if (STAGE === 'production') {
-    return 'https://moring.one';
-  }
+  console.log({ STAGE });
 
-  if (STAGE === 'development') {
-    return 'https://dev.moring.one';
+  switch (STAGE) {
+    case 'production':
+      return 'https://moring.one';
+    case 'development':
+      return 'https://dev.moring.one';
   }
 
   return 'https://local.moring.one:3000';
