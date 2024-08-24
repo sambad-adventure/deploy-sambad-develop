@@ -20,7 +20,7 @@ export const aboutMeSectionCss = css({
   [`& ${subTitleAttribute.querySelector}`]: {
     paddingBottom: size['6xs'],
 
-    '&:not(:first-child)': {
+    '&:not(:first-of-type)': {
       paddingTop: size['sm'],
     },
   },
@@ -42,4 +42,14 @@ export const answerContentCss = css({
   '& > * + *': {
     marginTop: size['7xs'],
   },
+});
+
+export const handWavingButtonCss = css({
+  position: 'absolute',
+  bottom: size['xl'],
+});
+
+export const screenRootCss = css({
+  position: 'relative',
+  height: '100dvh',
 });

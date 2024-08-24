@@ -1,4 +1,5 @@
 import { Txt } from '@sambad/sds/components';
+import { colors } from '@sds/theme';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -35,7 +36,7 @@ export const Questioner = ({ meetingId, meetingMemberId, imageUrl, name }: Quest
         { questionId, meetingMemberId },
         {
           onSuccess: () => {
-            router.push(`/share-group?question-id=${questionId}&questioner-name=${name}`);
+            router.push(`${meetingId}/share-group?question-id=${questionId}&questioner-name=${name}`);
           },
         },
       );
@@ -45,9 +46,9 @@ export const Questioner = ({ meetingId, meetingMemberId, imageUrl, name }: Quest
   return (
     <li css={wrapperCss} onClick={handleOpenModal}>
       <div css={imgWrapperCss}>
-        <Image src={imageUrl} alt={name} width={40} height={40} />
+        <Image src={imageUrl} alt={name} width={40} height={40} css={{ objectFit: 'cover' }} />
       </div>
-      <Txt typography="title2" fontWeight="medium">
+      <Txt typography="title2" color={colors.black} fontWeight="medium">
         {name}
       </Txt>
     </li>
