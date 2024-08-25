@@ -20,7 +20,7 @@ importers:
       jotai:
         specifier: ^2.9.1
         version: 2.9.3(react@18.2.0)
-      lodash:
+      lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
       next:
@@ -36,9 +36,9 @@ importers:
       '@turbo/gen':
         specifier: ^1.12.4
         version: 1.13.4(@swc/core@1.5.7)(@types/node@20.14.10)(typescript@5.5.3)
-      '@types/lodash':
-        specifier: ^4.17.7
-        version: 4.17.7
+      '@types/lodash-es':
+        specifier: ^4.17.12
+        version: 4.17.12
       cspell:
         specifier: ^8.10.0
         version: 8.10.4
@@ -321,8 +321,11 @@ importers:
   packages/web-domains:
     dependencies:
       '@sambad/css-utils':
-        specifier: workspace:^
+        specifier: workspace:*
         version: link:../core/css-utils
+      '@sambad/react-utils':
+        specifier: workspace:*
+        version: link:../core/react-utils
       '@tanstack/react-query':
         specifier: ^5.50.1
         version: 5.51.1(react@18.2.0)
@@ -354,6 +357,9 @@ importers:
       '@sambad/typescript-config':
         specifier: workspace:*
         version: link:../core/typescript-config
+      '@tanstack/react-query-devtools':
+        specifier: ^5.52.1
+        version: 5.52.1(@tanstack/react-query@5.51.1)(react@18.2.0)
       '@types/eslint':
         specifier: ^8.56.5
         version: 8.56.10
@@ -4138,7 +4144,21 @@ packages:
 
   /@tanstack/query-core@5.51.1:
     resolution: {integrity: sha512-fJBMQMpo8/KSsWW5ratJR5+IFr7YNJ3K2kfP9l5XObYHsgfVy1w3FJUWU4FT2fj7+JMaEg33zOcNDBo0LMwHnw==}
-    dev: false
+
+  /@tanstack/query-devtools@5.51.16:
+    resolution: {integrity: sha512-ajwuq4WnkNCMj/Hy3KR8d3RtZ6PSKc1dD2vs2T408MdjgKzQ3klVoL6zDgVO7X+5jlb5zfgcO3thh4ojPhfIaw==}
+    dev: true
+
+  /@tanstack/react-query-devtools@5.52.1(@tanstack/react-query@5.51.1)(react@18.2.0):
+    resolution: {integrity: sha512-6KwSm9vcIIK26osQJtT52Gyccz/DyHPT216B7kt4ihg22G2rtGZ7sCXYQO25XEHyVwVingwHdZ7auj+ydgg4Zg==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.52.1
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-devtools': 5.51.16
+      '@tanstack/react-query': 5.51.1(react@18.2.0)
+      react: 18.2.0
+    dev: true
 
   /@tanstack/react-query@5.51.1(react@18.2.0):
     resolution: {integrity: sha512-s47HKFnQ4HOJAHoIiXcpna/roMMPZJPy6fJ6p4ZNVn8+/onlLBEDd1+xc8OnDuwgvecqkZD7Z2mnSRbcWefrKw==}
@@ -4147,7 +4167,6 @@ packages:
     dependencies:
       '@tanstack/query-core': 5.51.1
       react: 18.2.0
-    dev: false
 
   /@testing-library/dom@10.1.0:
     resolution: {integrity: sha512-wdsYKy5zupPyLCW2Je5DLHSxSfbIp6h80WoHOQc+RPtmPGA52O9x5MJEkv92Sjonpq+poOAtUKhh1kBGAXBrNA==}
@@ -4410,6 +4429,12 @@ packages:
 
   /@types/json5@0.0.29:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
+    dev: true
+
+  /@types/lodash-es@4.17.12:
+    resolution: {integrity: sha512-0NgftHUcV4v34VhXm8QBSftKVXtbkBG3ViCjs6+eJ5a6y6Mi/jiFGPc1sC7QK+9BFhWrURE3EOggmWaSxL9OzQ==}
+    dependencies:
+      '@types/lodash': 4.17.7
     dev: true
 
   /@types/lodash@4.17.6:
@@ -9276,6 +9301,10 @@ packages:
       p-locate: 6.0.0
     dev: true
 
+  /lodash-es@4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==}
+    dev: false
+
   /lodash.debounce@4.0.8:
     resolution: {integrity: sha512-FT1yDzDYEoYWhnSGnpE/4Kj1fLZkDFyqRb7fNt6FdYOSxlUWAtp42Eh6Wb0rGIv/m9Bgo7x4GhQbm5Ys4SG5ow==}
     dev: true
@@ -9290,6 +9319,7 @@ packages:
 
   /lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
+    dev: true
 
   /log-symbols@3.0.0:
     resolution: {integrity: sha512-dSkNGuI7iG3mfvDzUuYZyvk5dD9ocYCYzNU6CYDE6+Xqd+gwme6Z00NS3dUh8mq/73HaEtT7m6W+yUPtU6BZnQ==}
