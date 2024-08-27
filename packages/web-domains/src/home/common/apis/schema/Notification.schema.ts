@@ -18,7 +18,8 @@ export type AlarmEventType = {
   status: 'ACTIVE' | 'INACTIVE';
   additionalData: {
     handWavingId: number;
-  };
+    status?: 'NOT_REQUESTED' | 'REQUESTED' | 'ACCEPTED' | 'REJECTED';
+  } | null;
   createdAt: number;
 };
 

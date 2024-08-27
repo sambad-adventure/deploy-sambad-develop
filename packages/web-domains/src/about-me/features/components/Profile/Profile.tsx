@@ -2,8 +2,9 @@
 
 import { Badge, Txt } from '@sambad/sds/components';
 import { borderRadiusVariants, colors } from '@sambad/sds/theme';
-import Image from 'next/image';
 import { Fragment } from 'react';
+
+import { Avatar } from '@/common/components/Avatar/Avatar';
 
 import { badgeContainerCss, nameCss } from './styles';
 import { generateAge, generateGender } from './utils';
@@ -26,13 +27,13 @@ export const Profile = (props: ProfileProps) => {
   const age = birthFromProps && generateAge(birthFromProps);
   const gender = generateGender(genderFromProps);
 
-  const infoBadges = [age, gender, mbti, location, job].filter(Boolean);
+  const infoBadges = [age, gender, mbti, location, job].filter((value) => value != null);
 
   return (
     <Fragment>
       {imageUrl != null && (
-        <Image
-          src={imageUrl}
+        <Avatar
+          imageUrl={imageUrl}
           width={80}
           height={80}
           alt={`${name}_프로필_이미지`}

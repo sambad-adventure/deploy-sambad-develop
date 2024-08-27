@@ -1,6 +1,7 @@
 import { Txt } from '@sambad/sds/components';
 import { colors } from '@sambad/sds/theme';
-import Image from 'next/image';
+
+import { Avatar } from '@/common/components/Avatar/Avatar';
 
 import { RelayStartDecoCircle } from '../../../../assets/RelayStartDecoCircle';
 import { RelayStartDecoStar } from '../../../../assets/RelayStartDecoStar';
@@ -25,7 +26,7 @@ const convertProfileImage = (profileImageUrl: string) => {
 
   return (
     <div css={profileImgWrapperCss}>
-      <Image src={profileImageUrl} alt="profile image" width={142} height={142} />
+      <Avatar imageUrl={profileImageUrl} width={142} height={142} />
     </div>
   );
 };
@@ -34,7 +35,12 @@ export const Profile = ({ profileImageUrl }: ProfileProps) => {
   return (
     <section css={profileSectionCss}>
       <div css={profileIntroductionCss}>
-        <Txt typography="heading1" color={colors.black} fontWeight="bold">
+        <Txt
+          typography="heading1"
+          color={colors.black}
+          fontWeight="bold"
+          css={{ textAlign: 'center', wordBreak: 'keep-all' }}
+        >
           이번 릴레이 질문인은 바로 나!
         </Txt>
         <Txt color={colors.grey600} style={{ textAlign: 'center' }}>
