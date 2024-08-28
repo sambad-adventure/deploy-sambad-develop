@@ -47,14 +47,16 @@ export const useSetCurrentMeeting = () => {
   };
 
   useEffect(() => {
-    const lastVisitedMeeting = getCurrentMeeting(meetingInfo);
-    try {
-      if (lastVisitedMeeting) {
-        mutateAsync({ meetingId: lastVisitedMeeting.meetingId });
-        setCurrentMeeting(lastVisitedMeeting);
+    if (meetingInfo) {
+      const lastVisitedMeeting = getCurrentMeeting(meetingInfo);
+      try {
+        if (lastVisitedMeeting) {
+          mutateAsync({ meetingId: lastVisitedMeeting.meetingId });
+          setCurrentMeeting(lastVisitedMeeting);
+        }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
     }
 
     return () => {
