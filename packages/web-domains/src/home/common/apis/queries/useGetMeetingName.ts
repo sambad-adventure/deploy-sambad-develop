@@ -1,5 +1,5 @@
 import { UseQueryOptionsExcludedQueryKey } from '@sambad/types-utils/tanstack';
-import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useQuery, QueryClient } from '@tanstack/react-query';
 import { isAxiosError } from 'axios';
 import { ReadonlyRequestCookies } from 'next/dist/server/web/spec-extension/adapters/request-cookies';
 
@@ -33,8 +33,14 @@ export const getMeetingInfoPrefetch = (queryClient: QueryClient, cookie?: Readon
   const prefetch = queryClient.fetchQuery({
     queryKey: [MEETING_INFO_QUERY_KEY],
     queryFn: async () => {
-      const data = await getMeetingInfo(cookie);
-      return data;
+      try {
+        const data = await getMeetingInfo(cookie);
+        return data;
+      } catch (error) {
+        if (isAxiosError(error)) {
+          console.log(error);
+        }
+      }
     },
   });
 
