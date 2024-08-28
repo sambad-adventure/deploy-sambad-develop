@@ -7,7 +7,6 @@ import { generateInviteLink } from '@/common/utils/generateInviteLink';
 import { getKeywordRegex } from '@/common/utils/getKeywordRegex';
 import { useGetInviteCode } from '@/home/common/apis/queries/useGetInviteCode';
 import { useGetMeetingInfo } from '@/home/common/apis/queries/useGetMeetingName';
-import { useGetMyInfo } from '@/home/common/apis/queries/useGetMyInfo';
 import { MemberType } from '@/home/common/apis/schema/useGetProgressingQuestionQuery.type';
 import { HomeAtoms } from '@/home/common/atoms/home.atom';
 
@@ -19,11 +18,6 @@ export const useGatherMemberProfileListService = () => {
   const [searchInput, setSearchInput] = useState<string>('');
   const [gatherMemberList, setGatherMemberList] = useState<MemberType[]>([]);
   const meetingId = currentMeeting?.meetingId;
-
-  const { data: myInfo } = useGetMyInfo({
-    params: { meetingId: meetingId! },
-    options: { enabled: !!meetingId },
-  });
 
   const { data } = useGetGatherMemberList({
     params: { meetingId: meetingId! },
@@ -64,10 +58,10 @@ export const useGatherMemberProfileListService = () => {
   };
 
   useEffect(() => {
-    if (data?.contents && myInfo) {
+    if (data?.contents) {
       setGatherMemberList(data?.contents);
     }
-  }, [data, myInfo]);
+  }, [data]);
 
   useEffect(() => {
     let filter;

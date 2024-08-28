@@ -39,18 +39,19 @@ export const useSetCurrentMeeting = () => {
   };
 
   useEffect(() => {
-    if (!currentMeeting) {
-      const lastVisitedMeeting = getCurrentMeeting(meetingInfo);
-
-      try {
-        if (lastVisitedMeeting) {
-          mutateAsync({ meetingId: lastVisitedMeeting.meetingId });
-        }
-      } catch (error) {
-        console.log(error);
+    const lastVisitedMeeting = getCurrentMeeting(meetingInfo);
+    try {
+      if (lastVisitedMeeting) {
+        mutateAsync({ meetingId: lastVisitedMeeting.meetingId });
       }
       setCurrentMeeting(lastVisitedMeeting);
+    } catch (error) {
+      console.log(error);
     }
+
+    return () => {
+      setCurrentMeeting(null);
+    };
   }, [meetingInfo]);
 
   return {
