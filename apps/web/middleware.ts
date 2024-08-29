@@ -1,4 +1,3 @@
-import { getWebDomain } from '@/common';
 import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -11,8 +10,9 @@ export async function middleware(request: NextRequest) {
   if (!accessToken && !request.nextUrl.pathname.startsWith('/auth')) {
     const response = NextResponse.redirect(new URL('/auth', request.url));
     if (request.nextUrl.pathname.startsWith('/meeting/participate/closing')) {
-      const originalUrl = `${getWebDomain()}${request.nextUrl.pathname}${request.nextUrl.search}`;
-      console.log(originalUrl);
+      const host = request.headers.get('host');
+      const protocol = request.headers.get('x-forwarded-proto') || 'https';
+      const originalUrl = `${protocol}://${host}${request.nextUrl.pathname}${request.nextUrl.search}`;
       response.cookies.set('client_redirect_url', encodeURIComponent(originalUrl));
     }
     return response;
