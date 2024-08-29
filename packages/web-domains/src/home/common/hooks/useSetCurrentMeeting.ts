@@ -38,7 +38,7 @@ export const useSetCurrentMeeting = () => {
     setIsProgressingQuestion(false);
     try {
       setCurrentMeeting(meeting);
-      mutateAsync({ meetingId: meeting.meetingId });
+      await mutateAsync({ meetingId: meeting.meetingId });
     } catch (error) {
       if (isAxiosError(error)) {
         console.log(error);
@@ -47,16 +47,14 @@ export const useSetCurrentMeeting = () => {
   };
 
   useEffect(() => {
-    if (meetingInfo) {
-      const lastVisitedMeeting = getCurrentMeeting(meetingInfo);
-      try {
-        if (lastVisitedMeeting) {
-          mutateAsync({ meetingId: lastVisitedMeeting.meetingId });
-          setCurrentMeeting(lastVisitedMeeting);
-        }
-      } catch (error) {
-        console.log(error);
+    const lastVisitedMeeting = getCurrentMeeting(meetingInfo);
+    try {
+      if (lastVisitedMeeting) {
+        mutateAsync({ meetingId: lastVisitedMeeting.meetingId });
+        setCurrentMeeting(lastVisitedMeeting);
       }
+    } catch (error) {
+      console.log(error);
     }
 
     return () => {
