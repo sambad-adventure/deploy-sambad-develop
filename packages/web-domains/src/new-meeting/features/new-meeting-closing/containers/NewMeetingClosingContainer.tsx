@@ -1,12 +1,12 @@
 'use client';
 
+import { mobileMediaQuery } from '@sambad/css-utils';
 import { colors } from '@sambad/sds/theme';
 import Image from 'next/image';
 
 import Character from '../../../common/assets/images/meeting-character.png';
 import { InviteCodeShareButton } from '../components/Button/InviteCodeShareButton';
-import ClosingMessage from '../components/ClosingMessage';
-import { useGetMeetingNameService } from '../services/useGetMeetingNameService';
+import { ClosingMessage } from '../components/ClosingMessage';
 
 interface NewMeetingClosingContainerProps {
   inviteCode: string;
@@ -14,8 +14,6 @@ interface NewMeetingClosingContainerProps {
 
 const NewMeetingClosingContainer = (props: NewMeetingClosingContainerProps) => {
   const { inviteCode } = props;
-
-  const { data } = useGetMeetingNameService({ inviteCode });
 
   return (
     <div
@@ -30,7 +28,7 @@ const NewMeetingClosingContainer = (props: NewMeetingClosingContainerProps) => {
         justifyContent: 'center',
       }}
     >
-      <ClosingMessage name={data?.name} />
+      <ClosingMessage inviteCode={inviteCode} />
       <div
         css={{
           position: 'relative',
@@ -49,6 +47,7 @@ const NewMeetingClosingContainer = (props: NewMeetingClosingContainerProps) => {
           aspectRatio: '11/5',
           bottom: '184px',
           transform: 'translate(-3%, 0)',
+          ...mobileMediaQuery({ display: 'none' }),
         }}
       >
         <Image src={Character} alt="meeting-character" priority fill />
