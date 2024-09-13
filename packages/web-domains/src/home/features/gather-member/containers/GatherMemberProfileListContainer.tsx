@@ -3,6 +3,7 @@
 import { Icon } from '@sds/components';
 
 import { KakaoShareModal } from '@/common';
+import { EmptyView } from '@/common/components';
 
 import { GatherMemberProfileList } from '../components/GatherMemberProfile/GatherMemberProfileList';
 import { GatherMemberSearchInput } from '../components/GatherMemberSearch/GatherMemberSearchInput';
@@ -20,6 +21,10 @@ export const GatherMemberProfileListContainer = () => {
     inviteModalClose,
     inviteModalOpen,
   } = useGatherMemberProfileListService();
+
+  if (!gatherMemberList.length) {
+    return <EmptyView title="아직 입장한 모임원이 없어요!" />;
+  }
 
   return (
     <section css={{ width: '100%', padding: '24px 20px' }}>

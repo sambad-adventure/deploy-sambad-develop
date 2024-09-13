@@ -1,5 +1,6 @@
 import { Txt, Button } from '@sds/components';
 import { colors } from '@sds/theme';
+import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 import { buttonWrapperCss } from '../../get-user-info/components/Form/styles';
@@ -13,11 +14,13 @@ export interface IntroFormType {
 const MAX_LENGTH = 3000;
 
 export const ModifyIntroForm = () => {
+  const searchParams = useSearchParams();
+
   const {
     register,
     formState: { isValid },
     handleSubmit,
-  } = useForm<IntroFormType>({ defaultValues: { introduction: '' } });
+  } = useForm<IntroFormType>({ defaultValues: { introduction: searchParams.get('introduction') || '' } });
 
   const { handleModifyUserInfo } = useModifyUserInfoService();
 
@@ -26,7 +29,9 @@ export const ModifyIntroForm = () => {
       <TextArea
         placeholder="저는 이런 사람이에요."
         maxLength={MAX_LENGTH}
-        {...register('introduction', { maxLength: MAX_LENGTH, pattern: /^\S.*\S$/ })}
+        {...register('introduction', {
+          maxLength: MAX_LENGTH,
+        })}
       />
       <Txt as="p" typography="body4" color={colors.grey600}>
         최대 {MAX_LENGTH}자까지 입력해주세요

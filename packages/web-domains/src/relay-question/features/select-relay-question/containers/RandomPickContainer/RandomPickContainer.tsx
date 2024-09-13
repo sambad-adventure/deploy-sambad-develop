@@ -1,12 +1,12 @@
 'use client';
 
 import { css } from '@emotion/react';
-import { Button } from '@sambad/sds/components';
+import { useSetTimeBoolean } from '@sambad/react-utils';
+import { Button, ToolTip } from '@sambad/sds/components';
 import { size } from '@sambad/sds/theme';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-import { ToolTip } from '../../../../../common/components/ToolTip/ToolTip';
 import { RelayRandomButtonDocumentIcon } from '../../../../assets/RelayRandomButtonIcon';
 import { Modal } from '../../../../common/Modal';
 import { FIRST_STEP } from '../../../../constants';
@@ -17,9 +17,8 @@ import { usePostRelayQuestionInfo } from '../../hooks/mutations/usePostRelayQues
 import { useMemberMeQuery } from '../../hooks/queries/useMemberMeQuery';
 import { useRandomNextQuestionerQuery } from '../../hooks/queries/useRandomNextQuestionerQuery';
 import { useRandomQuestionQuery } from '../../hooks/queries/useRandomQuestionQuery';
-import { useToolTipShow } from '../../hooks/useToolTipShow';
 
-import { wrapperCss } from './RandomPickContainer.styles';
+import { randomButtonCss, tooltipCss, wrapperCss } from './RandomPickContainer.styles';
 
 interface Props {
   meetingId: number;
@@ -38,10 +37,14 @@ const QuestionRandomPick = ({ meetingId }: Props) => {
   const router = useRouter();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isShowToolTip } = useToolTipShow({ showTime: 5000 });
+  const isShowToolTip = useSetTimeBoolean(5000, true);
 
-  const { memberMe } = useMemberMeQuery(meetingId);
-  const { question, refetchQuestion } = useRandomQuestionQuery([memberMe?.meetingMemberId!]);
+  const { memberMe, isLoading: isLoadingMember } = useMemberMeQuery(meetingId);
+  const {
+    question,
+    refetchQuestion,
+    isLoading: isLoadingQuestion,
+  } = useRandomQuestionQuery([memberMe?.meetingMemberId!]);
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -58,11 +61,13 @@ const QuestionRandomPick = ({ meetingId }: Props) => {
     handleCloseModal();
   };
 
+  if (isLoadingMember || isLoadingQuestion) return;
+
   return (
     <>
       <section css={wrapperCss}>
-        {isShowToolTip && <ToolTip>어떤 질문을 선택할지 고민인가요?</ToolTip>}
-        <Button css={css({ padding: `${size['4xs']} ${size['2xs']}` })} onClick={handleOpenModal}>
+        {isShowToolTip && <ToolTip css={tooltipCss}>어떤 질문을 선택할지 고민인가요?</ToolTip>}
+        <Button onClick={handleOpenModal} css={randomButtonCss}>
           <RelayRandomButtonDocumentIcon css={css({ marginRight: `${size['6xs']}` })} />
           랜덤 선택
         </Button>
@@ -89,15 +94,19 @@ const QuestionerRandomPick = ({ meetingId }: Props) => {
   const searchParams = useSearchParams();
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { isShowToolTip } = useToolTipShow({ showTime: 5000 });
+  const isShowToolTip = useSetTimeBoolean(5000, true);
 
-  const { memberMe } = useMemberMeQuery(meetingId);
-  const { questioner, refetchQuestioner } = useRandomNextQuestionerQuery({
+  const { memberMe, isLoading: isLoadingMember } = useMemberMeQuery(meetingId);
+  const {
+    questioner,
+    refetchQuestioner,
+    isLoading: isLoadingQuestioner,
+  } = useRandomNextQuestionerQuery({
     meetingId,
     excludeMemberIds: [memberMe?.meetingMemberId!],
   });
 
-  const { postRelayQuestionInfo } = usePostRelayQuestionInfo(meetingId);
+  const { postRelayQuestionInfo, isPending } = usePostRelayQuestionInfo(meetingId);
 
   const handleOpenModal = () => {
     setIsOpen(true);
@@ -124,11 +133,13 @@ const QuestionerRandomPick = ({ meetingId }: Props) => {
     );
   };
 
+  if (isLoadingMember || isLoadingQuestioner) return;
+
   return (
     <>
       <section css={wrapperCss}>
-        {isShowToolTip && <ToolTip>다음 질문인을 누구로 할지 고민인가요?</ToolTip>}
-        <Button css={css({ padding: `${size['4xs']} ${size['2xs']}` })} onClick={handleOpenModal}>
+        {isShowToolTip && <ToolTip css={tooltipCss}>다음 질문인을 누구로 할지 고민인가요?</ToolTip>}
+        <Button onClick={handleOpenModal} css={randomButtonCss}>
           <RelayRandomButtonDocumentIcon css={css({ marginRight: `${size['6xs']}` })} />
           랜덤 선택
         </Button>
@@ -142,6 +153,7 @@ const QuestionerRandomPick = ({ meetingId }: Props) => {
             onConfirm={handleConfirmModal}
             onRefetch={refetchQuestioner}
             isRandom
+            isPending={isPending}
           />
         )}
       </Modal>
